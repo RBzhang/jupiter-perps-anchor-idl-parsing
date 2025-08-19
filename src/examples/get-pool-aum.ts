@@ -4,6 +4,7 @@ import {
   RPC_CONNECTION,
   USDC_DECIMALS,
 } from "../constants";
+import { BN } from "@coral-xyz/anchor";
 import { type IdlAccounts } from "@coral-xyz/anchor";
 import { Perpetuals } from "../idl/jupiter-perpetuals-idl";
 import { BNToUSDRepresentation } from "../utils";
@@ -22,24 +23,26 @@ export async function getPoolAum() {
 
   const poolAum = pool.aumUsd;
 
-  console.log("Pool AUM ($):", BNToUSDRepresentation(poolAum, USDC_DECIMALS));
+  // console.log("Pool AUM ($):", BNToUSDRepresentation(poolAum, USDC_DECIMALS));
 
-  RPC_CONNECTION.onProgramAccountChange(
-    JUPITER_PERPETUALS_PROGRAM.programId,
-    ({ accountId, accountInfo }) => {
-      if (accountId.equals(JLP_POOL_ACCOUNT_PUBKEY)) {
-        const pool = JUPITER_PERPETUALS_PROGRAM.coder.accounts.decode(
-          "pool",
-          accountInfo.data,
-        ) as IdlAccounts<Perpetuals>["pool"];
+  // RPC_CONNECTION.onProgramAccountChange(
+  //   JUPITER_PERPETUALS_PROGRAM.programId,
+  //   ({ accountId, accountInfo }) => {
+  //     if (accountId.equals(JLP_POOL_ACCOUNT_PUBKEY)) {
+  //       const pool = JUPITER_PERPETUALS_PROGRAM.coder.accounts.decode(
+  //         "pool",
+  //         accountInfo.data,
+  //       ) as IdlAccounts<Perpetuals>["pool"];
 
-        console.log(
-          "Pool AUM: ($): ",
-          BNToUSDRepresentation(pool.aumUsd, USDC_DECIMALS),
-        );
-      }
-    },
-  );
+  //       console.log(
+  //         "Pool AUM: ($): ",
+  //         BNToUSDRepresentation(pool.aumUsd, USDC_DECIMALS),
+  //       );
+  //     }
+  //   },
+  // );
 
   return poolAum;
 }
+
+// getPoolAum();

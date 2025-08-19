@@ -1,8 +1,11 @@
 import { BN } from "@coral-xyz/anchor";
 import { divCeil } from "../utils";
 import { Custody, OraclePrice } from "../types";
-import { USDC_DECIMALS } from "../constants";
-
+import { PublicKey } from "@solana/web3.js";
+import { JUPITER_PERPETUALS_PROGRAM, USDC_DECIMALS, CUSTODY_PUBKEY, CUSTODY_PUBKEYS } from "../constants";
+import { fetchOraclePrice } from "./get-aum-with-oracle";
+import { getCustodyInstance } from "./getCustodyInstance";
+import { BNToUSDRepresentation } from "../utils";
 /* Constants */
 
 export const RATE_DECIMALS = 9;
@@ -34,23 +37,26 @@ export const checkedDecimalMul = (
 };
 
 // Formats the oracle price to a target exponent
-export function getPrice(oraclePrice: OraclePrice, targetExponent: number): BN {
+export function getPrice(oraclePrice: OraclePrice, targetExponent: number): OraclePrice {
   if (targetExponent === oraclePrice.exponent) {
     return { ...oraclePrice };
   }
 
   const delta = targetExponent - oraclePrice.exponent;
-
+  // console.log("Delta:", delta);
+  // console.log("Oracle Price:", oraclePrice.price.toString(), "Exponent:", oraclePrice.exponent);
   if (delta > 0) {
+    console.log("Price: ", oraclePrice.price.toString(), "Exponent:", oraclePrice.exponent);
     return {
       price: oraclePrice.price.div(new BN(10).pow(new BN(delta))),
       exponent: targetExponent,
-    };
+    } as OraclePrice;
   } else {
+    console.log("Price: ", oraclePrice.price.toString(), "Exponent:", oraclePrice.exponent);
     return {
       price: oraclePrice.price.mul(new BN(10).pow(new BN(Math.abs(delta)))),
       exponent: targetExponent,
-    };
+    } as OraclePrice;
   }
 }
 
@@ -106,6 +112,8 @@ export function totalLocked(custody: Custody) {
 
 export function getGlobalShortPnl(custody: Custody, price: BN) {
   const averagePrice = custody.assets.globalShortAveragePrices;
+  // console.log("Average Price:", averagePrice.toString());
+  // console.log("Current Price:", price.toString());
   const priceDelta = averagePrice.sub(price).abs();
   const tradersPnlDelta = custody.assets.globalShortSizes
     .mul(priceDelta)
@@ -162,7 +170,7 @@ export function getAssetUnderManagementUsdForCustody(
     if (custody.assets.globalShortSizes.gtn(0)) {
       ({ tradersPnlDelta, tradersHasProfit } = getGlobalShortPnl(
         custody,
-        getPrice(custodyPrice, -USDC_DECIMALS),
+        getPrice(custodyPrice, -USDC_DECIMALS).price,
       ));
 
       if (tradersHasProfit) {
@@ -171,7 +179,38 @@ export function getAssetUnderManagementUsdForCustody(
         aumUsd = aumUsd.add(tradersPnlDelta);
       }
     }
+    // console.log(aumUsd.toString());
 
     return aumUsd;
   }
 }
+
+
+// export async function calculateCustodyAUM() {
+
+// }
+
+
+// const cache: CustodyToOraclePrice = {};
+
+async function calculateCustodyAUM() {
+  // 1. 获取托管账户实例（以 SOL 为例）
+  const custodyPubkey = new PublicKey(CUSTODY_PUBKEY.BTC);
+
+  const custody = await getCustodyInstance(CUSTODY_PUBKEYS.BTC);
+
+  // console.log("Custody instance:", custody.assets.owned.toString());
+  // 2. 获取对应的 Oracle 价格
+  const oraclePrice = await fetchOraclePrice(CUSTODY_PUBKEYS.BTC);
+  // console.log("Oracle Price:", oraclePrice.price.toString(), "Exponent:", oraclePrice.exponent);
+  // // 3. 计算 AUM
+  const aumUsd = getAssetUnderManagementUsdForCustody(custody, oraclePrice);
+
+  // // 4. 转换为可读的 USD 格式（如 1000000 → $1.00）
+  const aumUsdStr = BNToUSDRepresentation(aumUsd, USDC_DECIMALS);
+  console.log(`AUM for SOL custody: ${aumUsdStr}`);
+}
+
+
+// calculateCustodyAUM().catch(console.error);
+

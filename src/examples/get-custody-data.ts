@@ -18,3 +18,5 @@ export async function getCustodyData() {
     console.error("Failed to parse Jupiter Perps IDL", error);
   }
 }
+
+getCustodyData();

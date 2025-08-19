@@ -1,18 +1,18 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { AnchorProvider, BN, Program, Wallet } from "@coral-xyz/anchor";
 import { IDL as DovesIDL } from "../idl/doves-idl";
-import { CUSTODY_PUBKEY } from "../constants";
+import { CUSTODY_PUBKEY, CUSTODY_PUBKEYS } from "../constants";
 import { BNToUSDRepresentation } from "../utils";
 
 /* Constants */
 
-const connection = new Connection("https://api.mainnet-beta.solana.com");
+const connection = new Connection("https://mainnet.helius-rpc.com/?api-key=e4161acb-2867-46fa-b757-3416e8ed3114");
 
 const DOVES_PROGRAM_ID = new PublicKey(
   "DoVEsk76QybCEHQGzkvYPWLQu9gzNoZZZt3TPiL597e",
 );
 
-const dovesProgram = new Program(
+export const dovesProgram = new Program(
   DovesIDL,
   DOVES_PROGRAM_ID,
   new AnchorProvider(connection, new Wallet(Keypair.generate()), {
@@ -43,31 +43,31 @@ const CUSTODY_DETAILS = {
   },
 };
 
-const DOVES_ORACLES = [
+export const DOVES_ORACLES = [
   {
     name: "SOL",
     publicKey: CUSTODY_DETAILS[CUSTODY_PUBKEY.SOL].dovesOracle,
-    custody: CUSTODY_PUBKEY.SOL,
+    custody: CUSTODY_PUBKEYS.SOL,
   },
   {
     name: "ETH",
     publicKey: CUSTODY_DETAILS[CUSTODY_PUBKEY.ETH].dovesOracle,
-    custody: CUSTODY_PUBKEY.ETH,
+    custody: CUSTODY_PUBKEYS.ETH,
   },
   {
     name: "BTC",
     publicKey: CUSTODY_DETAILS[CUSTODY_PUBKEY.BTC].dovesOracle,
-    custody: CUSTODY_PUBKEY.BTC,
+    custody: CUSTODY_PUBKEYS.BTC,
   },
   {
     name: "USDC",
     publicKey: CUSTODY_DETAILS[CUSTODY_PUBKEY.USDC].dovesOracle,
-    custody: CUSTODY_PUBKEY.USDC,
+    custody: CUSTODY_PUBKEYS.USDC,
   },
   {
     name: "USDT",
     publicKey: CUSTODY_DETAILS[CUSTODY_PUBKEY.USDT].dovesOracle,
-    custody: CUSTODY_PUBKEY.USDT,
+    custody: CUSTODY_PUBKEYS.USDT,
   },
 ];
 
@@ -175,4 +175,4 @@ export async function subscribeOraclePrices(intervalMs: number = 100) {
   return cache;
 }
 
-subscribeOraclePrices();
+// subscribeOraclePrices();
