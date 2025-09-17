@@ -160,48 +160,48 @@ export async function getGlobalLongsizeUsd() {
     // totalPnl = hasProfit ? totalPnl.add(pnl) : totalPnl.sub(pnl);
   });
 
-  console.log(
-    // "Global long unrealized PNL ($)",
-    // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
-    "GLobal long sizeUsd and collateralUsd SOL",
-    BNToUSDRepresentation(sizeUsdlongbyToken['SOL'], USDC_DECIMALS),
-    BNToUSDRepresentation(collateralUsdlongbyToken['SOL'], USDC_DECIMALS),
-  );
-  console.log(
-    // "Global long unrealized PNL ($)",
-    // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
-    "GLobal long sizeUsd and collateralUsd BTC",
-    BNToUSDRepresentation(sizeUsdlongbyToken['BTC'], USDC_DECIMALS),
-    BNToUSDRepresentation(collateralUsdlongbyToken['BTC'], USDC_DECIMALS),
-  );
-  console.log(
-    // "Global long unrealized PNL ($)",
-    // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
-    "GLobal long sizeUsd and collateralUsd ETH",
-    BNToUSDRepresentation(sizeUsdlongbyToken['ETH'], USDC_DECIMALS),
-    BNToUSDRepresentation(collateralUsdlongbyToken['ETH'], USDC_DECIMALS),
-  );
-    console.log(
-    // "Global long unrealized PNL ($)",
-    // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
-    "GLobal short sizeUsd and collateralUsd SOL",
-    BNToUSDRepresentation(sizeUsdshortbyToken['SOL'], USDC_DECIMALS),
-    BNToUSDRepresentation(collateralUsdshortbyToken['SOL'], USDC_DECIMALS),
-  );
-  console.log(
-    // "Global long unrealized PNL ($)",
-    // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
-    "GLobal short sizeUsd and collateralUsd BTC",
-    BNToUSDRepresentation(sizeUsdshortbyToken['BTC'], USDC_DECIMALS),
-    BNToUSDRepresentation(collateralUsdshortbyToken['BTC'], USDC_DECIMALS),
-  );
-    console.log(
-    // "Global long unrealized PNL ($)",
-    // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
-    "GLobal short sizeUsd and collateralUsd ETH",
-    BNToUSDRepresentation(sizeUsdshortbyToken['ETH'], USDC_DECIMALS),
-    BNToUSDRepresentation(collateralUsdshortbyToken['ETH'], USDC_DECIMALS),
-  );
+  // console.log(
+  //   // "Global long unrealized PNL ($)",
+  //   // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
+  //   "GLobal long sizeUsd and collateralUsd SOL",
+  //   BNToUSDRepresentation(sizeUsdlongbyToken['SOL'], USDC_DECIMALS),
+  //   BNToUSDRepresentation(collateralUsdlongbyToken['SOL'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   // "Global long unrealized PNL ($)",
+  //   // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
+  //   "GLobal long sizeUsd and collateralUsd BTC",
+  //   BNToUSDRepresentation(sizeUsdlongbyToken['BTC'], USDC_DECIMALS),
+  //   BNToUSDRepresentation(collateralUsdlongbyToken['BTC'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   // "Global long unrealized PNL ($)",
+  //   // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
+  //   "GLobal long sizeUsd and collateralUsd ETH",
+  //   BNToUSDRepresentation(sizeUsdlongbyToken['ETH'], USDC_DECIMALS),
+  //   BNToUSDRepresentation(collateralUsdlongbyToken['ETH'], USDC_DECIMALS),
+  // );
+  //   console.log(
+  //   // "Global long unrealized PNL ($)",
+  //   // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
+  //   "GLobal short sizeUsd and collateralUsd SOL",
+  //   BNToUSDRepresentation(sizeUsdshortbyToken['SOL'], USDC_DECIMALS),
+  //   BNToUSDRepresentation(collateralUsdshortbyToken['SOL'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   // "Global long unrealized PNL ($)",
+  //   // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
+  //   "GLobal short sizeUsd and collateralUsd BTC",
+  //   BNToUSDRepresentation(sizeUsdshortbyToken['BTC'], USDC_DECIMALS),
+  //   BNToUSDRepresentation(collateralUsdshortbyToken['BTC'], USDC_DECIMALS),
+  // );
+  //   console.log(
+  //   // "Global long unrealized PNL ($)",
+  //   // BNToUSDRepresentation(totalPnl, USDC_DECIMALS),
+  //   "GLobal short sizeUsd and collateralUsd ETH",
+  //   BNToUSDRepresentation(sizeUsdshortbyToken['ETH'], USDC_DECIMALS),
+  //   BNToUSDRepresentation(collateralUsdshortbyToken['ETH'], USDC_DECIMALS),
+  // );
   const size: Record<string, BN> = {
     SOL: new BN(0),
     ETH: new BN(0),
@@ -211,18 +211,18 @@ export async function getGlobalLongsizeUsd() {
   size['SOL'] = sizeUsdlongbyToken['SOL'].add(collateralUsdlongbyToken['SOL']);
   size['ETH'] = sizeUsdlongbyToken['ETH'].add(collateralUsdlongbyToken['ETH']);
   size['BTC'] = sizeUsdlongbyToken['BTC'].add(collateralUsdlongbyToken['BTC']);
-  console.log(
-    "Global size SOL",
-    BNToUSDRepresentation(size['SOL'], USDC_DECIMALS),
-  );
-    console.log(
-    "Global size BTC",
-    BNToUSDRepresentation(size['BTC'], USDC_DECIMALS),
-  );
-  console.log(
-    "Global size ETH",
-    BNToUSDRepresentation(size['ETH'], USDC_DECIMALS),
-  );
+  // console.log(
+  //   "Global size SOL",
+  //   BNToUSDRepresentation(size['SOL'], USDC_DECIMALS),
+  // );
+  //   console.log(
+  //   "Global size BTC",
+  //   BNToUSDRepresentation(size['BTC'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   "Global size ETH",
+  //   BNToUSDRepresentation(size['ETH'], USDC_DECIMALS),
+  // );
   const guaranteedUsd: Record<string, BN> = {
     SOL: new BN(0),
     BTC: new BN(0),
@@ -231,35 +231,35 @@ export async function getGlobalLongsizeUsd() {
   guaranteedUsd['SOL'] = sizeUsdlongbyToken['SOL'].sub(collateralUsdlongbyToken['SOL']);
   guaranteedUsd['ETH'] = sizeUsdlongbyToken['ETH'].sub(collateralUsdlongbyToken['ETH']);
   guaranteedUsd['BTC'] = sizeUsdlongbyToken['BTC'].sub(collateralUsdlongbyToken['BTC']);
-  console.log(
-    "Global guaranteedUsd SOL",
-    BNToUSDRepresentation(guaranteedUsd['SOL'], USDC_DECIMALS),
-  );
-  console.log(
-    "Global guaranteedUsd BTC",
-    BNToUSDRepresentation(guaranteedUsd['BTC'], USDC_DECIMALS),
-  );
-  console.log(
-    "Global guaranteedUsd ETH",
-    BNToUSDRepresentation(guaranteedUsd['ETH'], USDC_DECIMALS),
-  );
-  console.log(
-    "Global size long and short",
-    BNToUSDRepresentation(globalsize.long, 0),
-    BNToUSDRepresentation(globalsize.short, 0),
-  );
-  console.log(
-    "Global short size SOL",
-    BNToUSDRepresentation(shortsize['SOL'], USDC_DECIMALS),
-  );
-  console.log(
-    "Global short size BTC",
-    BNToUSDRepresentation(shortsize['BTC'], USDC_DECIMALS),
-  );
-  console.log(
-    "Global short size ETH",
-    BNToUSDRepresentation(shortsize['ETH'], USDC_DECIMALS),
-  );
+  // console.log(
+  //   "Global guaranteedUsd SOL",
+  //   BNToUSDRepresentation(guaranteedUsd['SOL'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   "Global guaranteedUsd BTC",
+  //   BNToUSDRepresentation(guaranteedUsd['BTC'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   "Global guaranteedUsd ETH",
+  //   BNToUSDRepresentation(guaranteedUsd['ETH'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   "Global size long and short",
+  //   BNToUSDRepresentation(globalsize.long, 0),
+  //   BNToUSDRepresentation(globalsize.short, 0),
+  // );
+  // console.log(
+  //   "Global short size SOL",
+  //   BNToUSDRepresentation(shortsize['SOL'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   "Global short size BTC",
+  //   BNToUSDRepresentation(shortsize['BTC'], USDC_DECIMALS),
+  // );
+  // console.log(
+  //   "Global short size ETH",
+  //   BNToUSDRepresentation(shortsize['ETH'], USDC_DECIMALS),
+  // );
   
   // const custodyPubkey_BTC = new PublicKey(CUSTODY_PUBKEY.BTC);
 
